@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="app.manifest">
 <head>
     <meta charset="UTF-8">
     <title>Task Manager</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style-offline.css">
+    <link rel="stylesheet" href="style-online.css">
     <script src="taskStorage.js"></script>
     <script src="taskManager.js"></script>
+    <script>
+    applicationCache.onupdateready = function(){
+        var response = confirm("A new version of the application is available. Do you want to use it?");
+        if (response){
+            window.location.reload();
+        }
+    }
+    </script>
 </head>
 <body>
-    <h1>Task Manager</h1>
-    <hr>
+    <h1>Task Manager - 7.0</h1>
+
     <div class="content">
         <label for="">Task :</label>
         <input type="text" name="" id="txtTask">
@@ -20,5 +28,6 @@
 
         </ol>
     </div>
+    <i>A brand new app</i>
 </body>
 </html>
