@@ -15,7 +15,38 @@
         }
     </style>
     <script>
+    function getTaskStorage(){
+        var storage = window.localStorage;
+        function getAllTasks(){
+            var result = [];
+            for(var i=0; i<window.localStorage.length; i++){
+                var taskId = window.localStorage.key(i);
+                var taskObjAsString = window.localStorage.getItem(taskId);
+                var task = JSON.parse(taskObjAsString);
+                result.push(task);
+            }
+            return result;
+        }
+        function saveTask(task){
+            storage.setItem(task.id, JSON.stringify(task));
+        }
+        function removeTask(taskId){
+            storage.removeItem(taskId);
+        }
+        function toggleTask(taskId){
+            var task = JSON.parse(storage.getItem(taskId));
+            task.isCompleted = !task.isCompleted;
+            storage.setItem(taskId, JSON.stringify(task));
+        }
+        return {
+            getAll : getAllTasks,
+            save : saveTask,
+            remove : removeTask,
+            toggle : toggleTask
+        }
+    }
     (function(){
+        var taskStorage = getTaskStorage();
         window.addEventListener("DOMContentLoaded", init);
         function init(){
             var btnAdd = document.getElementById("btnAdd");
@@ -24,27 +55,47 @@
             var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
             btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
             
-            var taskItems = document.getElementById("olTaskList").children;
-            for(var i=taskItems.length-1; i>=0; i--)
-                taskItems[i].addEventListener("click", onTaskItemClick);
+            taskStorage.getAll().forEach(addToList);
+
         }
         function onBtnAddClick(){
             var taskName = document.getElementById("txtTask").value;
+            //save in storage
+            var taskId = Date.now().toString();
+            var task = {
+                id : taskId,
+                name : taskName,
+                isCompleted : false
+            };
+            taskStorage.save(task);
+            addToList(task);
+        }
+        function addToList(task){
             var newTask = document.createElement("li");
-            newTask.innerHTML = taskName;
+            newTask.innerHTML = task.name;
             newTask.addEventListener("click", onTaskItemClick);
+            newTask.setAttribute("data-task-id", task.id);
+            if (task.isCompleted){
+                newTask.classList.add("completed");
+            }
             document.getElementById("olTaskList").appendChild(newTask);
         }
+
         function onBtnRemoveCompletedClick(){
             var taskItems = document.getElementById("olTaskList").children;
             for(var i=taskItems.length-1; i>=0; i--){
                 var taskItem = taskItems[i];
-                if (taskItem.classList.contains("completed"))
+                if (taskItem.classList.contains("completed")){
+                    var taskId = taskItem.getAttribute("data-task-id");
+                    taskStorage.remove(taskId);
                     taskItem.remove();
+                }
             }
         }
         function onTaskItemClick(){
             this.classList.toggle("completed");
+            var taskId = this.getAttribute("data-task-id");
+            taskStorage.toggle(taskId);
         }
     })();
     </script>
@@ -58,8 +109,7 @@
         <input type="button" value="Add Task" id="btnAdd">
         <input type="button" value="Remove Completed" id="btnRemoveCompleted">
         <ol id="olTaskList">
-            <li class="completed">Plan for vacation</li>
-            <li>Fix that bug</li>
+
         </ol>
     </div>
 </body>

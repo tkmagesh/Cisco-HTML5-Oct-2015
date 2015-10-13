@@ -15,4 +15,4 @@
 9. Geo location
 10. notifications
 11. canvas
-12. svg   
+12. svg
