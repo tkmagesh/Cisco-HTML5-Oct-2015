@@ -16,12 +16,12 @@
     </style>
     <script>
     function getTaskStorage(){
-        var storage = window.localStorage;
+        var storage = window.sessionStorage;
         function getAllTasks(){
             var result = [];
-            for(var i=0; i<window.localStorage.length; i++){
-                var taskId = window.localStorage.key(i);
-                var taskObjAsString = window.localStorage.getItem(taskId);
+            for(var i=0; i<storage.length; i++){
+                var taskId = storage.key(i);
+                var taskObjAsString = storage.getItem(taskId);
                 var task = JSON.parse(taskObjAsString);
                 result.push(task);
             }
@@ -51,7 +51,7 @@
         function init(){
             var btnAdd = document.getElementById("btnAdd");
             btnAdd.addEventListener("click", onBtnAddClick);
-            
+
             var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
             btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
             window.addEventListener("storage", loadTasks);

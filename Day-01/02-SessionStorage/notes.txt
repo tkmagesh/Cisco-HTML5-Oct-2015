@@ -1,0 +1,16 @@
+window.sessionStorage
+    - key-value store
+    - both key and value should be strings
+    - 10 MB size limit
+    - Same Origin Policy
+    - Data is lost once the browser is shutdown
+    
+    - APIs
+        * setItem(key, value)
+        * getItem(key) => value
+        * removeItem(key)
+        * key(index) => key at index
+        * clear()
+        * length
+        
+        

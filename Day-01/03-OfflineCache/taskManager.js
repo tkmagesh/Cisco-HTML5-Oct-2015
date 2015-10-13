@@ -1,57 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Task Manager</title>
-    <style>
-        .completed{
-            color : red;
-            text-decoration: line-through;
-            font-style: italic;
-            font-weight: bold;
-        }
-        li{
-            cursor: pointer;
-        }
-    </style>
-    <script>
-    function getTaskStorage(){
-        var storage = window.localStorage;
-        function getAllTasks(){
-            var result = [];
-            for(var i=0; i<window.localStorage.length; i++){
-                var taskId = window.localStorage.key(i);
-                var taskObjAsString = window.localStorage.getItem(taskId);
-                var task = JSON.parse(taskObjAsString);
-                result.push(task);
-            }
-            return result;
-        }
-        function saveTask(task){
-            storage.setItem(task.id, JSON.stringify(task));
-        }
-        function removeTask(taskId){
-            storage.removeItem(taskId);
-        }
-        function toggleTask(taskId){
-            var task = JSON.parse(storage.getItem(taskId));
-            task.isCompleted = !task.isCompleted;
-            storage.setItem(taskId, JSON.stringify(task));
-        }
-        return {
-            getAll : getAllTasks,
-            save : saveTask,
-            remove : removeTask,
-            toggle : toggleTask
-        }
-    }
+
     (function(){
         var taskStorage = getTaskStorage();
         window.addEventListener("DOMContentLoaded", init);
         function init(){
             var btnAdd = document.getElementById("btnAdd");
             btnAdd.addEventListener("click", onBtnAddClick);
-            
+
             var btnRemoveCompleted = document.getElementById("btnRemoveCompleted");
             btnRemoveCompleted.addEventListener("click", onBtnRemoveCompletedClick);
             window.addEventListener("storage", loadTasks);
@@ -101,19 +55,3 @@
             taskStorage.toggle(taskId);
         }
     })();
-    </script>
-</head>
-<body>
-    <h1>Task Manager</h1>
-    <hr>
-    <div class="content">
-        <label for="">Task :</label>
-        <input type="text" name="" id="txtTask">
-        <input type="button" value="Add Task" id="btnAdd">
-        <input type="button" value="Remove Completed" id="btnRemoveCompleted">
-        <ol id="olTaskList">
-
-        </ol>
-    </div>
-</body>
-</html>

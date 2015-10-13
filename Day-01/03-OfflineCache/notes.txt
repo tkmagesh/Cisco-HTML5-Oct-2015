@@ -1,0 +1,15 @@
+Manifest file
+===============================
+CACHE MANIFEST
+# VER 1.0
+CACHE:
+#list the resources that you want the browser to cache
+
+NETWORK:
+#list the network (not cached) resources - usually '*'
+
+FALLBACK:
+#list the offline alternative for an online resource
+===============================
+
+<html manifest="manifestFile">
