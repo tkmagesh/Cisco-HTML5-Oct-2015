@@ -10,9 +10,9 @@
     b. Web Sockets (done)
 5. New HTML5 Elements (done)
 6. New Input Types (done)
-7. Audio
-8. Video 
+7. Audio (done)
+8. Video (done)
 9. Geo location (done)
-10. notifications
+10. notifications (done)
 11. canvas
 12. svg
