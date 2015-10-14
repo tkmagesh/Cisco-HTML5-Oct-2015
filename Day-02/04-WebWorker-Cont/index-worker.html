@@ -15,8 +15,11 @@
             worker.addEventListener("message", onWorkerMessage);
         }
         function onWorkerMessage(evtArg){
-            if (evtArg.data === 'done'){
+            var messageData = evtArg.data;
+            if (messageData.type === 'done'){
                 displayMessage("Work completed");
+            } else if (messageData.type === 'progress'){
+                document.getElementById("workProgress").value = messageData.percentCompleted;
             } else {
                 console.log("unknown message - ", evtArg.data);
             }
